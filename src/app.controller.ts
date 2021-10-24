@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
+import { resolveSoa } from 'dns';
 import { AppService } from './app.service';
 
 @Controller()
