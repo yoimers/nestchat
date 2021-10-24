@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14-buster-slim
 
 WORKDIR /usr/src/app
 
@@ -8,5 +8,4 @@ COPY . ./
 
 EXPOSE 8080
 
-RUN chmod +x ./start.sh
-CMD  ["./start.sh"]
+CMD ["node", "./dist/main.js"]
