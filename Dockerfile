@@ -1,7 +1,4 @@
-# FROM node:14-buster-slim
-
-
-FROM node:14-stretch-slim
+FROM node:14.18-stretch-slim
 
 WORKDIR /usr/src/app
 
