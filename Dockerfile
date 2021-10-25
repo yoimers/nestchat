@@ -1,4 +1,4 @@
-FROM node:14.18-stretch-slim
+FROM node:14.18
 
 WORKDIR /usr/src/app
 
@@ -8,5 +8,5 @@ COPY . ./
 
 EXPOSE 8080
 
-RUN npx prisma generate && npx prisma migrate
-CMD ["npm", "run", "start"]
+RUN chmod +x ./start.sh
+CMD  ["./start.sh"]
