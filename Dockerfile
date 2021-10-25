@@ -8,4 +8,5 @@ COPY . ./
 
 EXPOSE 8080
 
+RUN npm run prisma:generate && npm run prisma:migrate
 CMD ["npm", "run", "start"]
