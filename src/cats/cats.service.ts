@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Knex } from 'knex';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 
@@ -7,7 +8,6 @@ export class CatsService {
   private readonly cats: CreateCatDto[] = [];
 
   create(createCatDto: CreateCatDto) {
-    this.cats.push(createCatDto);
     return 'This action adds a new cat';
   }
 

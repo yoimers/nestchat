@@ -1,5 +1,5 @@
 import { Controller, Get, Res } from '@nestjs/common';
-import { resolveSoa } from 'dns';
+import { User } from '@prisma/client';
 import { AppService } from './app.service';
 
 @Controller()
@@ -9,5 +9,9 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+  @Get('users')
+  getUsers(): Promise<User[]> {
+    return this.appService.users();
   }
 }

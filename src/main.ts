@@ -12,6 +12,6 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(parseInt(process.env.PORT || '8080'), '0.0.0.0');
+  await app.listen(process.env.PORT || 8080, '0.0.0.0');
 }
 bootstrap();
