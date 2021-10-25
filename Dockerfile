@@ -9,4 +9,4 @@ COPY . ./
 EXPOSE 8080
 
 RUN chmod +x ./start.sh
-CMD  ["npm","run","start"]
+CMD  ["./start.sh"]
