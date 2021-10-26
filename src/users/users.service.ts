@@ -13,11 +13,6 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
-    // const x = await compare(
-    //   createUserDto.password,
-    //   '$2b$10$1Ty/vghwP9mdKdiHReLrKO51M02B5xNwLgwhZNfTeUD.a7j..Nxr.',
-    // );
-    // return x;
     return this.prisma.user
       .create({
         data: {

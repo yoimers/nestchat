@@ -1,0 +1,12 @@
+###
+GET http://localhost:8080/users/2
+
+
+###
+POST http://localhost:8080/auth
+content-type: application/json
+
+{
+  "name":"yrs!fefefefegfeasdsda!!!",
+  "password":"1234567890"
+}
