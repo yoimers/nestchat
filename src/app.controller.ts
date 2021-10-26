@@ -10,8 +10,4 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-  @Get('users')
-  getUsers(): Promise<User[]> {
-    return this.appService.users();
-  }
 }

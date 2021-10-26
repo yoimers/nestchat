@@ -1,0 +1,12 @@
+
+GET http://localhost:8080/chats/1
+
+###
+POST http://localhost:8080/chats
+content-type: application/json
+
+{
+  "content": "aa",
+  "userId": "1a",
+  "roomId": 1
+}

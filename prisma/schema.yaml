@@ -1,0 +1,25 @@
+
+
+room:
+  id: ID
+  name: string
+  joinUsers: [user]!
+  chats: [chat]!
+  
+  createdAt: Timestamp
+
+
+user:
+  id: ID
+  name: string
+  invite: [user]!
+  joinRoom: [room]!
+  sendChat: [chat]!
+  createdAt: Timestamp
+
+chat:
+  id: ID
+  userId: ID
+  roomId: ID
+  content: string
+  createdAt: Timestamp

@@ -11,17 +11,38 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id           String   @id @default(uuid())
+  name         String   @unique
+  hashpassword String
+  joinRoom     Room[]
+  sendChat     Chat[]
+  isInvited    Invite[] @relation("isInvited")
+  invite       Invite[] @relation("invite")
+  createdAt    DateTime @default(now())
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model Invite {
+  id          String @id @default(uuid())
+  isInvited   User   @relation("isInvited", fields: [isInvitedId], references: [id])
+  isInvitedId String
+  invite      User   @relation("invite", fields: [inviteId], references: [id])
+  inviteId    String
+}
+
+model Chat {
+  id        String   @id @default(uuid())
+  content   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  roomId    String
+  createdAt DateTime @default(now())
+}
+
+model Room {
+  id        String   @id @default(uuid())
+  name      String
+  joinUsers User[]
+  sendChats Chat[]
+  createdAt DateTime @default(now())
 }
