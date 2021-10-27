@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
@@ -6,16 +6,32 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 @Injectable()
 export class RoomsService {
   constructor(private prisma: PrismaService) {}
-  create(createRoomDto: CreateRoomDto) {
-    return 'This action adds a new room';
+  async create(createRoomDto: CreateRoomDto) {
+    console.log(createRoomDto);
+    const Room = await this.prisma.room
+      .create({
+        data: {
+          roomName: createRoomDto.roomName,
+        },
+      })
+      .catch((e) => {
+        throw new BadRequestException(e.code);
+      });
+
+    return this.prisma.userInRoom
+      .create({
+        data: {
+          userId: createRoomDto.userId,
+          roomId: Room.id,
+        },
+      })
+      .catch((e) => {
+        throw new BadRequestException(e.code);
+      });
   }
 
-  findAll() {
-    return `This action returns all rooms`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} room`;
+  findOne(roomId: string) {
+    return `This action returns a #${roomId} room`;
   }
 
   update(id: number, updateRoomDto: UpdateRoomDto) {
@@ -24,5 +40,17 @@ export class RoomsService {
 
   remove(id: number) {
     return `This action removes a #${id} room`;
+  }
+  async isUserInRoom(roomId: string, userId: string): Promise<boolean> {
+    const isInRoom = await this.prisma.userInRoom.findFirst({
+      where: {
+        roomId,
+        userId,
+      },
+    });
+    if (isInRoom) {
+      return true;
+    }
+    return false;
   }
 }

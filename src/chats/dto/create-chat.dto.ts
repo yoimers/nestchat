@@ -1,4 +1,3 @@
-import { Chat } from '.prisma/client';
 import { IsString, IsUUID } from 'class-validator';
 
 export class CreateChatDto {
@@ -9,5 +8,3 @@ export class CreateChatDto {
   @IsUUID()
   roomId!: string;
 }
-
-type A = keyof Chat;

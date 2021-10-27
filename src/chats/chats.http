@@ -1,0 +1,17 @@
+
+GET http://localhost:8080/chats/7d9aa3ba-2b1f-451d-90f4-08804b9d8605
+
+###
+GET http://localhost:8080/chats/a02a48bd-52c9-45d2-a032-69652e906846
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZWkiLCJ1c2VySWQiOiI5NDE0OWE4MC03ZDg5LTRjYTctODllYy1jMjk4ZmM3ZTYyYjciLCJpYXQiOjE2MzUzMDI4ODksImV4cCI6MTYzNTM4OTI4OX0.Tn6IO7DyUqGh1LuvYA7P-Jrz_rlGulv0w51iWzM0s9w
+
+###
+POST http://localhost:8080/chats
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZWkiLCJ1c2VySWQiOiI5NDE0OWE4MC03ZDg5LTRjYTctODllYy1jMjk4ZmM3ZTYyYjciLCJpYXQiOjE2MzUzMDM1NzgsImV4cCI6MTYzNTM4OTk3OH0.80NRkqs_w-_PIJCJi5Ay56--atA8A8UJD3gwn2Dv6C8
+
+{
+  "content": "Chat!!!!!!!!!!!!!!!!!!!!!!!!!!",
+  "userId": "94149a80-7d89-4ca7-89ec-c298fc7e62b7",
+  "roomId": "06b430ae-577d-4eb2-8109-adf647bf3cd2"
+}

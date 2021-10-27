@@ -1,0 +1,17 @@
+
+GET http://localhost:8080/chats/7d9aa3ba-2b1f-451d-90f4-08804b9d8605
+
+###
+GET http://localhost:8080/rooms/7d9aa3ba-2b1f-451d-90f4-08804b9d8605
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZSIsImlhdCI6MTYzNTI5NzIxOSwiZXhwIjoxNjM1MzgzNjE5fQ.WzUMw5ydaHPpXLZxVZ2tnpwzgg7aCsSifMvuQQLKgvQ
+
+###
+POST http://localhost:8080/rooms
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZWkiLCJ1c2VySWQiOiI5NDE0OWE4MC03ZDg5LTRjYTctODllYy1jMjk4ZmM3ZTYyYjciLCJpYXQiOjE2MzUzMDM1NzgsImV4cCI6MTYzNTM4OTk3OH0.80NRkqs_w-_PIJCJi5Ay56--atA8A8UJD3gwn2Dv6C8
+
+{
+  "roomName": "Room",
+  "userName": "yomei",
+  "userId": "94149a80-7d89-4ca7-89ec-c298fc7e62b7"
+}
