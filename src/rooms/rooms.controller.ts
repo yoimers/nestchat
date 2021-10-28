@@ -26,14 +26,21 @@ export class RoomsController {
   ) {
     return this.roomsService.create({ ...createRoomDto, userId });
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Get(':roomId')
-  findOne(@Param('roomId') roomId: string) {
-    return this.roomsService.findOne(roomId);
+  findOne(
+    @Param('roomId') roomId: string,
+    @Req() { user: { userId } }: JwtChat,
+  ) {
+    return this.roomsService.findOne(roomId, userId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
-    return this.roomsService.update(+id, updateRoomDto);
+  @UseGuards(AuthGuard('jwt'))
+  @Patch(':roomId')
+  update(
+    @Param('roomId') roomId: string,
+    @Req() { user: { userId } }: JwtChat,
+  ) {
+    return this.roomsService.update(roomId, userId);
   }
 }

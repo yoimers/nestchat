@@ -7,6 +7,31 @@ POST http://localhost:8080/users
 content-type: application/json
 
 {
-  "name":"yo",
+  "name":"yomeiTo",
   "password":"123456789"
+}
+
+//・・・・・・・・・・invite
+
+
+###
+GET http://localhost:8080/users/invite/d9a47e64-7003-4eff-a74d-a7efa75f977f
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZWlUbyIsInVzZXJJZCI6ImQ5YTQ3ZTY0LTcwMDMtNGVmZi1hNzRkLWE3ZWZhNzVmOTc3ZiIsImlhdCI6MTYzNTQxMjEwMSwiZXhwIjoxNjM1NDk4NTAxfQ.wxhWc6E5ZIdVM7lfjmNHo_ZeR_eO-3DVlWJFexFdZC4
+
+{
+  "name":"yomeiTo",
+  "password":"123456789"
+}
+###
+POST http://localhost:8080/users/invite/d9a47e64-7003-4eff-a74d-a7efa75f977f
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZWkiLCJ1c2VySWQiOiI4OWUxNmZjYS1iYjM0LTRjZDItYWUwNC0wZGNkNzNiY2E1MTUiLCJpYXQiOjE2MzU0MTE2ODQsImV4cCI6MTYzNTQ5ODA4NH0.Lkkh6TSCGiW85J9-h2lUre3XNPAp8g6SVX1w9oXLKfo
+
+###
+POST http://localhost:8080/users/invite/reply/f63e3c50-4a53-4527-9164-b5bfbab8e55f
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZWlUbyIsInVzZXJJZCI6ImQ5YTQ3ZTY0LTcwMDMtNGVmZi1hNzRkLWE3ZWZhNzVmOTc3ZiIsImlhdCI6MTYzNTQxMjEwMSwiZXhwIjoxNjM1NDk4NTAxfQ.wxhWc6E5ZIdVM7lfjmNHo_ZeR_eO-3DVlWJFexFdZC4
+
+{
+  "isAccept": true
 }

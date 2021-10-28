@@ -11,8 +11,8 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Invite" (
     "id" TEXT NOT NULL,
-    "isInvitedId" TEXT NOT NULL,
-    "inviteId" TEXT NOT NULL,
+    "toId" TEXT NOT NULL,
+    "fromId" TEXT NOT NULL,
 
     CONSTRAINT "Invite_pkey" PRIMARY KEY ("id")
 );
@@ -33,30 +33,28 @@ CREATE TABLE "Room" (
     "id" TEXT NOT NULL,
     "roomName" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "published" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Room_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "_RoomToUser" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+CREATE TABLE "UserInRoom" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "roomId" TEXT NOT NULL,
+
+    CONSTRAINT "UserInRoom_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
 
--- CreateIndex
-CREATE UNIQUE INDEX "_RoomToUser_AB_unique" ON "_RoomToUser"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_RoomToUser_B_index" ON "_RoomToUser"("B");
+-- AddForeignKey
+ALTER TABLE "Invite" ADD CONSTRAINT "Invite_toId_fkey" FOREIGN KEY ("toId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Invite" ADD CONSTRAINT "Invite_isInvitedId_fkey" FOREIGN KEY ("isInvitedId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Invite" ADD CONSTRAINT "Invite_inviteId_fkey" FOREIGN KEY ("inviteId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Invite" ADD CONSTRAINT "Invite_fromId_fkey" FOREIGN KEY ("fromId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Chat" ADD CONSTRAINT "Chat_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -65,7 +63,7 @@ ALTER TABLE "Chat" ADD CONSTRAINT "Chat_userId_fkey" FOREIGN KEY ("userId") REFE
 ALTER TABLE "Chat" ADD CONSTRAINT "Chat_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "Room"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_RoomToUser" ADD FOREIGN KEY ("A") REFERENCES "Room"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserInRoom" ADD CONSTRAINT "UserInRoom_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_RoomToUser" ADD FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserInRoom" ADD CONSTRAINT "UserInRoom_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "Room"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

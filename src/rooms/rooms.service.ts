@@ -1,13 +1,16 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateRoomDto } from './dto/create-room.dto';
-import { UpdateRoomDto } from './dto/update-room.dto';
 
 @Injectable()
 export class RoomsService {
   constructor(private prisma: PrismaService) {}
   async create(createRoomDto: CreateRoomDto) {
-    console.log(createRoomDto);
     const Room = await this.prisma.room
       .create({
         data: {
@@ -30,18 +33,37 @@ export class RoomsService {
       });
   }
 
-  findOne(roomId: string) {
-    return `This action returns a #${roomId} room`;
+  async findOne(roomId: string, userId: string) {
+    const validate = await this.isUserInRoom(roomId, userId);
+    if (!validate) throw new NotFoundException();
+    return this.prisma.room.findFirst({
+      where: {
+        id: validate.roomId,
+        published: true,
+      },
+      include: {
+        sendChats: true,
+      },
+    });
   }
 
-  update(id: number, updateRoomDto: UpdateRoomDto) {
-    return `This action updates a #${id} room`;
+  async update(roomId: string, userId: string) {
+    const validate = await this.isUserInRoom(roomId, userId);
+    if (!validate) throw new ForbiddenException();
+    return this.prisma.room.update({
+      where: {
+        id: roomId,
+      },
+      data: {
+        published: false,
+      },
+    });
   }
 
   remove(id: number) {
     return `This action removes a #${id} room`;
   }
-  async isUserInRoom(roomId: string, userId: string): Promise<boolean> {
+  async isUserInRoom(roomId: string, userId: string) {
     const isInRoom = await this.prisma.userInRoom.findFirst({
       where: {
         roomId,
@@ -49,7 +71,7 @@ export class RoomsService {
       },
     });
     if (isInRoom) {
-      return true;
+      return isInRoom;
     }
     return false;
   }

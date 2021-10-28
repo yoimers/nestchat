@@ -22,11 +22,11 @@ model User {
 }
 
 model Invite {
-  id          String @id @default(uuid())
-  isInvited   User   @relation("isInvited", fields: [isInvitedId], references: [id])
-  isInvitedId String
-  invite      User   @relation("invite", fields: [inviteId], references: [id])
-  inviteId    String
+  id     String @id @default(uuid())
+  to     User   @relation("isInvited", fields: [toId], references: [id])
+  toId   String
+  from   User   @relation("invite", fields: [fromId], references: [id])
+  fromId String
 }
 
 model Chat {
@@ -41,7 +41,7 @@ model Chat {
 
 model Room {
   id        String       @id @default(uuid())
-  roomName  String
+  roomName  String       @default("Room")
   sendChats Chat[]
   UserRoom  UserInRoom[]
   createdAt DateTime     @default(now())

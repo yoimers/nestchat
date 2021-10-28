@@ -7,6 +7,6 @@ POST http://localhost:8080/auth
 content-type: application/json
 
 {
-  "name":"yomei",
-  "password":"1234567890"
+  "name":"yomeiTo",
+  "password":"123456789"
 }

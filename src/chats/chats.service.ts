@@ -36,6 +36,7 @@ export class ChatsService {
       orderBy: {
         createdAt: 'desc',
       },
+      take: 30,
     });
   }
 }
