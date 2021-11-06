@@ -2,8 +2,12 @@
 GET http://localhost:8080/chats/7d9aa3ba-2b1f-451d-90f4-08804b9d8605
 
 ###
-GET http://localhost:8080/rooms/7d9aa3ba-2b1f-451d-90f4-08804b9d8605
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoieW9tZSIsImlhdCI6MTYzNTI5NzIxOSwiZXhwIjoxNjM1MzgzNjE5fQ.WzUMw5ydaHPpXLZxVZ2tnpwzgg7aCsSifMvuQQLKgvQ
+GET http://localhost:8080/rooms/21fad205-c473-4322-8fe8-4d0fba2074c9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWFhYSIsInVzZXJJZCI6IjUxYWM3ZTE5LTEyMWItNDU0Ni1iZjdlLTA3YzE0ZDdkMTRhMiIsImlhdCI6MTYzNTkxOTg0NiwiZXhwIjoxNjM2MDA2MjQ2fQ.uQ17vYIq1ZqtsPfuOM9XklL6XP4Ed4BnGkjrtChPx4Q
+
+###
+GET http://localhost:8080/rooms/user/21fad205-c473-4322-8fe8-4d0fba2074c9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWFhIiwidXNlcklkIjoiYTc3ZmJkMzEtYjQ2My00ODRiLWFkNDMtN2YzMmU3ODIwOTBiIiwiaWF0IjoxNjM1OTIyNDExLCJleHAiOjE2MzYwMDg4MTF9.a3b6iVDqW7SP_-mSIwrTh1GGuSb0LvQSxwCOi4oxmOU
 
 ###
 POST http://localhost:8080/rooms

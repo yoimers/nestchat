@@ -9,22 +9,47 @@ import {
 import { PrismaService } from 'src/prisma.service';
 import { Answer, CreateUserDto } from './dto/create-user.dto';
 import { hash } from 'bcrypt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly auth: AuthService,
+  ) {}
+
+  get() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+  }
 
   async create(createUserDto: CreateUserDto) {
-    return this.prisma.user
+    const { name, password } = createUserDto;
+    await this.prisma.user
       .create({
         data: {
-          name: createUserDto.name,
-          hashpassword: await toHashPassword(createUserDto.password),
+          name,
+          hashpassword: await toHashPassword(password),
         },
       })
       .catch((e) => {
-        throw new BadRequestException(e.code);
+        if (e.code !== 'P2002') {
+          throw new InternalServerErrorException(e.code);
+        }
+        return null;
       });
+    const token = (await this.auth.login({
+      name,
+      password,
+    })) || { access_token: '', id: '' };
+    return {
+      name,
+      ...token,
+    };
   }
 
   async getUser(name: string) {
@@ -43,14 +68,15 @@ export class UsersService {
       });
   }
 
-  async invite(toId: string, userId: string) {
+  async invite(toId: string, userId: string, roomId?: string) {
     const validate = await this.findAll(toId);
-    if (validate.length !== 0) throw new ForbiddenException('Already invited');
-    console.log(validate);
+    const vali = validate.find((d) => d.roomId === roomId);
+    if (vali) throw new ForbiddenException('Already invited');
     return this.prisma.invite.create({
       data: {
         fromId: userId,
         toId,
+        roomId,
       },
     });
   }
@@ -73,26 +99,42 @@ export class UsersService {
           id: inviteId,
         },
       });
-      const createRoom = this.prisma.room.create({
-        data: {
-          roomName: 'Room',
-          UserRoom: {
-            createMany: {
-              data: [
-                {
-                  userId: validate.fromId,
-                },
-                {
-                  userId: validate.toId,
-                },
-              ],
+      if (!validate.roomId) {
+        const createRoom = this.prisma.room.create({
+          data: {
+            roomName: 'Room',
+            UserRoom: {
+              createMany: {
+                data: [
+                  {
+                    userId: validate.fromId,
+                  },
+                  {
+                    userId: validate.toId,
+                  },
+                ],
+              },
             },
           },
-        },
-      });
-      return this.prisma.$transaction([deleteInvite, createRoom]).catch((e) => {
-        throw new InternalServerErrorException(e.code);
-      });
+        });
+        return this.prisma
+          .$transaction([deleteInvite, createRoom])
+          .catch((e) => {
+            throw new InternalServerErrorException(e.code);
+          });
+      } else {
+        const createuserInRoom = this.prisma.userInRoom.create({
+          data: {
+            userId,
+            roomId: validate.roomId as string,
+          },
+        });
+        return this.prisma
+          .$transaction([deleteInvite, createuserInRoom])
+          .catch((e) => {
+            throw new InternalServerErrorException(e.code);
+          });
+      }
     } else {
       return this.prisma.invite
         .delete({
@@ -113,6 +155,26 @@ export class UsersService {
         where: {
           toId: userId,
         },
+        select: {
+          id: true,
+          fromId: true,
+          toId: true,
+          roomId: true,
+          from: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      })
+      .then((data) => {
+        return data.map((d) => ({
+          id: d.id,
+          toId: d.toId,
+          fromId: d.fromId,
+          name: d.from.name,
+          roomId: d.roomId,
+        }));
       })
       .catch((e) => {
         throw new BadRequestException(e.code);

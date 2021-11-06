@@ -6,9 +6,10 @@ import { UsersModule } from './users/users.module';
 import { ChatsModule } from './chats/chats.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { AuthModule } from './auth/auth.module';
+import { WebsocketModule } from './websocket/websocket.module';
 
 @Module({
-  imports: [UsersModule, ChatsModule, RoomsModule, AuthModule],
+  imports: [UsersModule, ChatsModule, RoomsModule, AuthModule, WebsocketModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })

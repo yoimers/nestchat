@@ -33,8 +33,15 @@ export class ChatsService {
       where: {
         roomId,
       },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: 'asc',
       },
       take: 30,
     });

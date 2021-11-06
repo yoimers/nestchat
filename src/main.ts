@@ -11,6 +11,16 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+
+  app.enableCors({
+    origin: 'https://nextchat-omega.vercel.app',
+    // origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    // preflightContinue: false,
+    // allowedHeaders:
+    //   'X-Requested-With, Origin, X-Csrftoken, Content-Type, Accept, authorization',
+  });
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(8080, '0.0.0.0');
 }

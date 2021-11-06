@@ -22,11 +22,10 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  //ok
   @UseGuards(AuthGuard('jwt'))
-  @Post('invite/:toId')
-  invite(@Param('toId') toId: string, @Req() { user: { userId } }: JwtChat) {
-    return this.usersService.invite(toId, userId);
+  @Get()
+  get() {
+    return this.usersService.get();
   }
 
   //ok
@@ -46,5 +45,12 @@ export class UsersController {
   findAll(@Param('userId') userId: string, @Req() { user }: JwtChat) {
     if (userId !== user.userId) throw new ForbiddenException();
     return this.usersService.findAll(userId);
+  }
+
+  //ok
+  @UseGuards(AuthGuard('jwt'))
+  @Post('invite/:toId')
+  invite(@Param('toId') toId: string, @Req() { user: { userId } }: JwtChat) {
+    return this.usersService.invite(toId, userId);
   }
 }

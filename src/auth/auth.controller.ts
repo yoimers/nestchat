@@ -10,4 +10,9 @@ export class AuthController {
   create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.login(createAuthDto);
   }
+
+  @Post('check')
+  check(@Body('access_token') access_token: string) {
+    return this.authService.check(access_token);
+  }
 }

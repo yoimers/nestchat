@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
-import { UpdateRoomDto } from './dto/update-room.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtChat } from 'src/chats/interface/jwt.interface';
 
@@ -26,6 +25,7 @@ export class RoomsController {
   ) {
     return this.roomsService.create({ ...createRoomDto, userId });
   }
+
   @UseGuards(AuthGuard('jwt'))
   @Get(':roomId')
   findOne(
@@ -33,6 +33,21 @@ export class RoomsController {
     @Req() { user: { userId } }: JwtChat,
   ) {
     return this.roomsService.findOne(roomId, userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/user/:toUserId')
+  findUserRoomOne(
+    @Param('toUserId') toUserId: string,
+    @Req() { user: { userId } }: JwtChat,
+  ) {
+    return this.roomsService.findUserRoomOne(toUserId, userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/attend/:roomId')
+  attendUser(@Param('roomId') roomId: string) {
+    return this.roomsService.attendUser(roomId);
   }
 
   @UseGuards(AuthGuard('jwt'))

@@ -46,6 +46,44 @@ export class RoomsService {
       },
     });
   }
+  async findUserRoomOne(toUserId: string, userId: string) {
+    return this.prisma.room.findMany({
+      where: {
+        published: true,
+        AND: [
+          {
+            UserRoom: {
+              some: {
+                userId,
+              },
+            },
+          },
+          {
+            UserRoom: {
+              some: {
+                userId: toUserId,
+              },
+            },
+          },
+        ],
+      },
+    });
+  }
+  async attendUser(roomId: string) {
+    return this.prisma.user.findMany({
+      where: {
+        joinRoom: {
+          some: {
+            roomId,
+          },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+  }
 
   async update(roomId: string, userId: string) {
     const validate = await this.isUserInRoom(roomId, userId);
