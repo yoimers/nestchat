@@ -15,7 +15,7 @@ import {
 
 @WebSocketGateway({
   cors: {
-    origin: 'https://nextchat-omega.vercel.app',
+    origin: ['http://localhost:3000', 'https://nextchat-omega.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
   },
